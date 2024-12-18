@@ -1,0 +1,24 @@
+{
+  "org.c9.function.bioinformatics.strip_fasta_header": {
+    "id": "org.c9.function.bioinformatics.strip_fasta_header",
+    "name": "strip_fasta_header",
+    "description": "Remove the FASTA header from the sequence data.",
+    "type": "function",
+    "keywords": ["FASTA", "sequence processing", "header removal"],
+    "date_created": "2024-12-17",
+    "date_last_modified": "2024-12-17",
+    "inputs": [
+      {
+        "name": "fasta_data",
+        "type": "string",
+        "description": "Amino acid sequence in FASTA format."
+      }
+    ],
+    "outputs": [
+      {
+        "type": "string",
+        "description": "Amino acid sequence without the FASTA header."
+      }
+    ]
+  }
+}

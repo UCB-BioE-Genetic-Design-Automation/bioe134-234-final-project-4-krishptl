@@ -1,0 +1,24 @@
+{
+  "org.c9.function.bioinformatics.query_uniprot": {
+    "id": "org.c9.function.bioinformatics.query_uniprot",
+    "name": "query_uniprot",
+    "description": "Query UniProt to retrieve amino acid sequence by protein name or ID.",
+    "type": "function",
+    "keywords": ["protein query", "UniProt", "sequence retrieval", "FASTA"],
+    "date_created": "2024-12-17",
+    "date_last_modified": "2024-12-17",
+    "inputs": [
+      {
+        "name": "protein_name_or_id",
+        "type": "string",
+        "description": "Name or UniProt ID of the protein to query."
+      }
+    ],
+    "outputs": [
+      {
+        "type": "string",
+        "description": "Amino acid sequence in FASTA format."
+      }
+    ]
+  }
+}
