@@ -1,10 +1,5 @@
 import time
 from proteinseqRetriever.py import main
-from BioE134FinalProject.checkers.valid_aa_sequence_checker import ValidAASequenceChecker
-from BioE134FinalProject.checkers.empty_aa_sequence_checker import EmptyAASequenceChecker
-from BioE134FinalProject.checkers.special_character_aa_sequence_checker import SpecialCharacterAASequenceChecker
-from BioE134FinalProject.checkers.lowercase_aa_sequence_checker import LowercaseAASequenceChecker
-from BioE134FinalProject.checkers.uncommon_character_aa_sequence_checker import UncommonCharacterAASequenceChecker
 
 def run_single_query(query):
     """
