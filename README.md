@@ -3,83 +3,99 @@
 
 ## Project Overview
 
-This project provides two core bioinformatics utilities: 
+This project provides bioinformatics utilities for retrieving and processing protein sequences from UniProt:
 
-1. **Reverse Complement (revcomp)**: Calculates the reverse complement of a DNA sequence.
-2. **Translate**: Translates a DNA sequence into a protein sequence according to the standard genetic code.
+1. **Query UniProt**: Retrieves the amino acid sequence of a protein by its name or UniProt ID.
+2. **Strip FASTA Header**: Removes the header from a FASTA-formatted protein sequence for easier processing.
 
-These functions are implemented in **Python** and are part of the broader bioinformatics toolset aimed at automating genetic sequence analysis tasks.
+These functions are implemented in **Python** and aim to automate protein sequence retrieval and processing tasks as part of a bioinformatics toolkit.
 
 ---
 
 ## Scope of Work
 
-As part of the final project for BioE 134, I developed two functions that are foundational for sequence analysis:
+For the final project in BioE 134, I developed a set of functions that automate protein sequence retrieval and processing, this was the first step in building a CodonOptimizer for Yeast:
 
-1. **Reverse Complement**: This function returns the reverse complement of a DNA sequence, which is an essential task in many genetic analysis pipelines.
+1. **Query UniProt**: This function takes a protein name or UniProt ID and retrieves the corresponding amino acid sequence in FASTA format from the UniProt database.
    
-2. **Translate**: This function translates a DNA sequence into a corresponding protein sequence by converting each codon into its corresponding amino acid, based on the standard genetic code.
+2. **Strip FASTA Header**: This function processes the FASTA-formatted sequence by removing the header, returning just the amino acid sequence for further analysis.
 
-Both functions include input validation and error handling to ensure proper use. The reverse complement function raises an error for sequences containing invalid characters, while the translate function raises an error for sequences not divisible by three, as well as sequences containing invalid characters.
+Both functions include error handling for invalid or missing protein entries, ensuring robust usage.
 
 ---
 
 ## Function Descriptions
 
-### 1. Reverse Complement (`reverse_complement`)
+### 1. Query UniProt (`query_uniprot`)
 
-- **Description**: This function takes a DNA sequence and returns its reverse complement. Only valid nucleotides (A, T, C, G) are allowed. The function raises a `ValueError` if invalid characters are found.
-- **Input**: A string representing the DNA sequence.
-- **Output**: A string representing the reverse complement of the input DNA sequence.
+- **Description**: This function queries the UniProt database to retrieve the amino acid sequence of a protein based on either its name or UniProt ID. The sequence is returned in FASTA format.
+- **Input**: A string representing the protein name or UniProt ID.
+- **Output**: A string representing the protein sequence in FASTA format.
 
 **Example**:
 ```python
-reverse_complement("ATGC")
-# Returns: "GCAT"
+query_uniprot("P12345")
+# Returns: ">sp|P12345|ProteinName Protein sequence...
+MSTKRTAG..."
 ```
 
-### 2. Translate (`translate`)
+### 2. Strip FASTA Header (`strip_fasta_header`)
 
-- **Description**: This function translates a DNA sequence into a corresponding protein sequence. The input sequence must be divisible by 3. If it contains invalid characters or is not a multiple of three, the function raises a `ValueError`. Stop codons are represented as underscores (`_`).
-- **Input**: A string representing the DNA sequence.
-- **Output**: A string representing the translated protein sequence.
+- **Description**: This function takes a FASTA-formatted protein sequence and removes the header, returning only the amino acid sequence.
+- **Input**: A string representing the protein sequence in FASTA format.
+- **Output**: A string representing the protein sequence without the header.
 
 **Example**:
 ```python
-translate("ATGGCC")
-# Returns: "MA"
+strip_fasta_header(">sp|P12345|ProteinName Protein sequence...
+MSTKRTAG...")
+# Returns: "MSTKRTAG..."
+```
+
+### 3. Main Function (`main`)
+
+- **Description**: This function acts as a wrapper to both query UniProt for a protein sequence and strip the FASTA header. It returns a clean amino acid sequence without any headers.
+- **Input**: A string representing the protein name or UniProt ID.
+- **Output**: A string representing the amino acid sequence without the FASTA header.
+
+**Example**:
+```python
+main("P12345")
+# Returns: "MSTKRTAG..."
 ```
 
 ---
 
 ## Error Handling
 
-### Reverse Complement
-- Raises `ValueError` if invalid characters (anything other than A, T, C, G) are present in the DNA sequence.
+### Query UniProt
+- Raises a `ValueError` if no protein sequence is found for the provided name or UniProt ID.
 
-### Translate
-- Raises `ValueError` if the sequence contains invalid characters or if the sequence length is not a multiple of three.
+### Strip FASTA Header
+- Returns the original data if the FASTA header is not present. If the input is not in valid FASTA format, the function will return the input unchanged.
+
+### Main Function
+- Raises a `ValueError` if no valid sequence is found after querying UniProt.
 
 ---
 
 ## Testing
 
-Both functions have been tested with standard, edge, and invalid input cases. A comprehensive suite of tests has been implemented using **pytest**.
+The functions have been tested with various protein name/ID inputs and valid/invalid sequences to ensure robustness. The tests include:
 
-- **Test File**: `tests/test_bio_functions.py`
+- Valid protein names/IDs
+- Handling of missing or invalid protein entries
+- Proper header removal from FASTA sequences
 
-The tests include:
-- Valid sequences
-- Sequences containing invalid characters
-- Sequences with lengths not divisible by three (for the translate function)
-- Palindromic sequences (for reverse complement)
-- Lowercase input handling
+Tests have been implemented using **pytest** to ensure functionality.
+
+- **Test File**: `tests/test_protein_seq_retriever.py`
 
 ---
 
 ## Usage Instructions
 
-Clone the repository and install the required dependencies listed in `requirements.txt`. The functions can be imported from the `bio_functions.py` module.
+Clone the repository and install the required dependencies listed in `requirements.txt`. The functions can be imported from the `protein_seq_retriever.py` module.
 
 **Example**:
 
@@ -90,20 +106,25 @@ pip install -r requirements.txt
 Once installed, you can use the functions as follows:
 
 ```python
-from bio_functions import reverse_complement, translate
+from protein_seq_retriever import query_uniprot, strip_fasta_header, main
 
-# Example DNA sequence
-dna_sequence = "ATGC"
+# Example protein name or UniProt ID
+protein_name_or_id = "P12345"
 
-# Reverse complement
-print(reverse_complement(dna_sequence))
+# Query UniProt
+fasta_sequence = query_uniprot(protein_name_or_id)
 
-# Translate
-print(translate("ATGGCC"))
+# Strip FASTA header
+clean_sequence = strip_fasta_header(fasta_sequence)
+
+# Main function to get clean sequence
+final_sequence = main(protein_name_or_id)
+
+print(final_sequence)
 ```
 
 ---
 
 ## Conclusion
 
-These two functions provide foundational operations for working with DNA sequences in bioinformatics pipelines. They have been tested and documented, ensuring proper error handling and robust functionality.
+This project provides essential utilities for protein sequence retrieval and processing. The functions are tested, include proper error handling, and are documented to ensure they can be used effectively in bioinformatics workflows. 
